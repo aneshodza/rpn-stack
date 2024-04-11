@@ -87,8 +87,6 @@ const drawStack = () => {
   });
 };
 
-drawStack();
-
 const drawCalculation = (calculation) => {
   let calculationElement = document.querySelector(".calculation");
   calculationElement.innerHTML = "";
