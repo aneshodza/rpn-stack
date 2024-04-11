@@ -1,17 +1,33 @@
+import kellerautomat from './kellerautomat.js';
+
 let form = document.querySelector("form");
 
 let stack = [];
 let currentSpot = 0;
 
-form.addEventListener("submit", function(e) {
+let word = "";
+
+let delay = 0
+
+form.addEventListener("submit", async function(e) {
   e.preventDefault();
   let calculation = e.target.elements["rpn-input"].value;
-  let delay = e.target.elements["rpn-delay"].value;
-  console.log(e.target.elements);
-  console.log(delay);
+  delay = e.target.elements["rpn-delay"].value;
 
   let splitCalculation = calculation.split(" ");
+  let compactCalculation = splitCalculation.join("");
+  let convertedCalculation = compactCalculation.replace(/[*+]/g, 'O').replace(/\d/g, 'Z');
+  calculation = splitCalculation;
+  word = convertedCalculation;
   drawCalculation(splitCalculation);
+  drawWord();
+
+  kellerautomat.delay = delay;
+  kellerautomat.inputWord = convertedCalculation;
+  if (!await kellerautomat.run()) {
+    window.alert("Word not accepted");
+    return
+  }
 
   calculate(splitCalculation, delay);
 });
@@ -79,3 +95,14 @@ const drawCalculation = (calculation) => {
     calculationElement.appendChild(calculationItem);
   });
 };
+
+const drawWord = () => {
+  let wordElement = document.querySelector(".word");
+  wordElement.innerHTML = "";
+  word.split("").forEach((element, idx) => {
+    let wordItem = document.createElement("div");
+    wordItem.textContent = element;
+    wordElement.appendChild(wordItem);
+  });
+
+}
