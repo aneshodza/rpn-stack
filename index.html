@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RPN auf dem Stack</title>
+    <link rel="stylesheet" href="./stylesheet.css" />
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <h1>Stack-based RPN Rechnungen</h1>
+    </div>
+    <div class="form-wrapper-wrapper">
+      <div class="form-wrapper">
+        <p>Bitte gib deine RPN Rechnung ein und drücke auf "Berechnen".</p>
+        <form id="rpn-form">
+          <input
+            type="text"
+            id="rpn-input"
+            placeholder="Gib deine RPN Rechnung ein"
+          />
+          <input
+            type="number"
+            id="rpn-delay"
+            placeholder="Gib einen Delay in ms ein"
+          />
+          <button type="submit">Berechnen</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="calculation-wrapper">
+      <h2>RPN Rechnung</h2>
+      <div class="calculation">
+        Füge deine RPN Rechnung hinzu und drücke auf "Berechnen"
+      </div>
+    </div>
+
+    <div class="stack-wrapper-wrapper">
+      <div class="stack-wrapper">
+        <h2>Stack</h2>
+        <div class="stack"></div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
