@@ -106,16 +106,14 @@ class Kellerautomat {
             stackElement.appendChild(emptyStack);
             return;
         }
-        this.stack.stackClone().reverse().forEach((element, idx) => {
+        this.stack.stackClone().reverse().forEach((element) => {
             let stackItem = document.createElement("div");
-            console.log("idx, runs", idx, this.runs);
-            console.log(this.runs === idx);
-            if (idx === this.runs) {
-                stackItem.classList.add("active");
-            }
             stackItem.textContent = element;
             stackElement.appendChild(stackItem);
         });
+        let element = document.getElementById(`word-item-${this.runs - 1}`);
+        if (element !== null)
+            element.classList.add("current");
         console.log(`Snapshot: \n` +
             `Current node: ${(_b = this.currentZustand) === null || _b === void 0 ? void 0 : _b.name} \n\n` +
             `Stack: \n` +

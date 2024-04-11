@@ -105,6 +105,7 @@ const drawWord = () => {
   wordElement.innerHTML = "";
   word.split("").forEach((element, idx) => {
     let wordItem = document.createElement("div");
+    wordItem.id = `word-item-${idx}`;
     wordItem.textContent = element;
     wordElement.appendChild(wordItem);
   });
