@@ -1,4 +1,4 @@
-import kellerautomat from './kellerautomat.js';
+import kellerautomat from "./kellerautomat.js";
 
 let form = document.querySelector("form");
 
@@ -7,7 +7,7 @@ let currentSpot = 0;
 
 let word = "";
 
-let delay = 0
+let delay = 0;
 
 form.addEventListener("submit", async function(e) {
   e.preventDefault();
@@ -16,20 +16,26 @@ form.addEventListener("submit", async function(e) {
 
   let splitCalculation = calculation.split(" ");
   let compactCalculation = splitCalculation.join("");
-  let convertedCalculation = compactCalculation.replace(/[*+]/g, 'O').replace(/\d/g, 'Z');
+  let convertedCalculation = compactCalculation.replace(/[*+]/g, "O").replace(
+    /\d/g,
+    "Z",
+  );
   calculation = splitCalculation;
   word = convertedCalculation;
   drawCalculation(splitCalculation);
   drawWord();
 
+  kellerautomat.clear();
   kellerautomat.delay = delay;
   kellerautomat.inputWord = convertedCalculation;
   if (!await kellerautomat.run()) {
     window.alert("Word not accepted");
-    return
+    return;
   }
 
-  calculate(splitCalculation, delay);
+  setTimeout(() => {
+    calculate(splitCalculation, delay);
+  }, delay * 5);
 });
 
 function calculate(calculation, delay) {
@@ -104,5 +110,4 @@ const drawWord = () => {
     wordItem.textContent = element;
     wordElement.appendChild(wordItem);
   });
-
-}
+};

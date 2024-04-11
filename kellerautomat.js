@@ -8,8 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 console.log("JS loaded!");
+let nodeNameElement = document.getElementById("node-name");
+let stackElement = document.getElementsByClassName("stack")[0];
 function sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 class Kellerautomat {
     constructor(inputWord = "", delay = 0) {
@@ -20,6 +22,7 @@ class Kellerautomat {
         this.currentZustand = null;
         this.inputWord = "";
         this.delay = 0;
+        this.runs = 0;
         this.inputWord = inputWord;
         this.delay = delay;
     }
@@ -44,6 +47,7 @@ class Kellerautomat {
         });
     }
     step() {
+        this.runs++;
         let currentToken = this.inputWord.charAt(0);
         this.inputWord = this.inputWord.slice(1);
         // Find the transition function that matches the current token
@@ -67,6 +71,13 @@ class Kellerautomat {
         }
         return true;
     }
+    clear() {
+        this.stack = new Stack();
+        this.currentZustand = this.startZustand;
+        this.runs = 0;
+        this.inputWord = "";
+        this.snapshot();
+    }
     addZustand(zustand) {
         this.zustaende.push(zustand);
     }
@@ -85,9 +96,28 @@ class Kellerautomat {
         console.log("Stack: ", this.stack);
     }
     snapshot() {
-        var _a;
+        var _a, _b;
+        nodeNameElement.innerHTML = (_a = this.currentZustand) === null || _a === void 0 ? void 0 : _a.name;
+        stackElement.innerHTML = this.stack.stackClone().reverse().join(" ");
+        stackElement.innerHTML = "";
+        if (this.stack.stackClone().length === 0) {
+            let emptyStack = document.createElement("div");
+            emptyStack.textContent = "none";
+            stackElement.appendChild(emptyStack);
+            return;
+        }
+        this.stack.stackClone().reverse().forEach((element, idx) => {
+            let stackItem = document.createElement("div");
+            console.log("idx, runs", idx, this.runs);
+            console.log(this.runs === idx);
+            if (idx === this.runs) {
+                stackItem.classList.add("active");
+            }
+            stackItem.textContent = element;
+            stackElement.appendChild(stackItem);
+        });
         console.log(`Snapshot: \n` +
-            `Current node: ${(_a = this.currentZustand) === null || _a === void 0 ? void 0 : _a.name} \n\n` +
+            `Current node: ${(_b = this.currentZustand) === null || _b === void 0 ? void 0 : _b.name} \n\n` +
             `Stack: \n` +
             `${this.stack.stackClone().reverse().join("\n")}\n\n` +
             `Ugly stack [${this.stack.stackClone().reverse().join(", ")}]`);
@@ -194,4 +224,5 @@ let uebergangsfunktion6 = new Uebergangsfunktion("", q2, "1", ["1", "1"]);
 q4.addUebergangsfunktion(uebergangsfunktion6);
 let uebergangsfunktion7 = new Uebergangsfunktion("", q1, "$", ["1", "$"]);
 q4.addUebergangsfunktion(uebergangsfunktion7);
+kellerautomat.snapshot();
 export default kellerautomat;

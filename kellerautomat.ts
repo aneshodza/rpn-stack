@@ -1,7 +1,12 @@
 console.log("JS loaded!");
 
+let nodeNameElement = document.getElementById("node-name") as HTMLInputElement;
+let stackElement = document.getElementsByClassName(
+  "stack",
+)[0] as HTMLInputElement;
+
 function sleep(milliseconds: number) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 class Kellerautomat {
@@ -14,6 +19,7 @@ class Kellerautomat {
   inputWord: string = "";
 
   delay: number = 0;
+  runs: number = 0;
 
   constructor(inputWord: string = "", delay: number = 0) {
     this.inputWord = inputWord;
@@ -42,6 +48,7 @@ class Kellerautomat {
   }
 
   step(): boolean {
+    this.runs++;
     let currentToken = this.inputWord.charAt(0);
     this.inputWord = this.inputWord.slice(1);
 
@@ -75,6 +82,14 @@ class Kellerautomat {
     return true;
   }
 
+  clear() {
+    this.stack = new Stack();
+    this.currentZustand = this.startZustand;
+    this.runs = 0;
+    this.inputWord = "";
+    this.snapshot();
+  }
+
   addZustand(zustand: Zustand) {
     this.zustaende!.push(zustand);
   }
@@ -99,6 +114,26 @@ class Kellerautomat {
   }
 
   snapshot() {
+    nodeNameElement.innerHTML = this.currentZustand?.name!;
+    stackElement.innerHTML = this.stack.stackClone().reverse().join(" ");
+
+    stackElement.innerHTML = "";
+    if (this.stack.stackClone().length === 0) {
+      let emptyStack = document.createElement("div");
+      emptyStack.textContent = "none";
+      stackElement.appendChild(emptyStack);
+      return;
+    }
+    this.stack.stackClone().reverse().forEach((element, idx) => {
+      let stackItem = document.createElement("div");
+      console.log("idx, runs", idx, this.runs)
+      console.log(this.runs === idx)
+      if (idx === this.runs) {
+        stackItem.classList.add("active");
+      }
+      stackItem.textContent = element;
+      stackElement.appendChild(stackItem);
+    });
     console.log(
       `Snapshot: \n` +
       `Current node: ${this.currentZustand?.name} \n\n` +
@@ -280,4 +315,5 @@ let uebergangsfunktion7: Uebergangsfunktion = new Uebergangsfunktion(
 );
 q4.addUebergangsfunktion(uebergangsfunktion7);
 
+kellerautomat.snapshot();
 export default kellerautomat;

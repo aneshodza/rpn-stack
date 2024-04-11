@@ -40,8 +40,7 @@ html {
 .stack-wrapper-wrapper {
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
   margin-top: 50px;
   }
 
@@ -112,4 +111,23 @@ h2 {
 
 .done-marker {
   font-size: 50px;
+}
+
+.current-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.node {
+  height: 50px;
+  aspect-ratio: 1;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
 }
